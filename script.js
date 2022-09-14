@@ -1,7 +1,10 @@
 const wordText = document.querySelector('.word'),
     hintText = document.querySelector('.hint span'),
+    inputField = document.querySelector('input'),
     refreshBtn = document.querySelector('.refresh-word'),
     checkBtn = document.querySelector('.check-word')
+
+let correctWord
 
 const initGame = () => {
     let randomObj = words[Math.floor(Math.random() * words.length)]
@@ -18,9 +21,21 @@ const initGame = () => {
     }
     wordText.innerText = wordArray.join('')
     hintText.innerText = randomObj.hint
+    correctWord = randomObj.word.toLowerCase()
+    inputField.value = ''
+    inputField.setAttribute('maxlength', correctWord.length)
     console.log(randomObj)
 }
 
 initGame()
 
+const checkWord = () => {
+    let userWord = inputField.value.toLowerCase()
+    if (!userWord) return alert(`Please enter a word check`)
+    if (userWord !== correctWord) return alert(`Oops! ${userWord} is not a correct word`)
+    alert(`Congrats! ${userWord.toUpperCase()} is a correct word`)
+    initGame()
+}
+
 refreshBtn.addEventListener('click', initGame)
+checkBtn.addEventListener('click', checkWord)
